@@ -344,19 +344,3 @@ The login screen features **Quick Fill** buttons for 1-click testing:
 
 ---
 
-## 9. Academic Viva Voce Defense & Examiner Q&A Guide
-
-### Q1: Why did you choose Java Swing instead of a web framework?
-**Answer:** The project was built to demonstrate deep mastery of core Java desktop architecture, manual event dispatch handling, multithreaded UI programming via `SwingWorker`, custom 2D canvas drawing (`Graphics2D`), and direct JDBC connection management without relying on abstraction-heavy web frameworks like Spring Boot or React.
-
-### Q2: How does the application prevent the UI from freezing during heavy database operations?
-**Answer:** We strictly separate the Swing Event Dispatch Thread (EDT) from background processing. All database queries, image uploads, and cycle matching operations execute inside `SwingWorker<T, V>` instances. Heavy computations execute in `doInBackground()`, and results safely update GUI components inside `done()` on the EDT.
-
-### Q3: Explain how your Circular Exchange algorithm detects trade cycles.
-**Answer:** We represent student supply and demand as a directed graph $G = (V, E)$ in `ExchangeGraph`. We execute a bounded Depth-First Search (DFS) with backtracking in `CycleDetection.java` limited to length 2–5. To prevent permutation duplicates (e.g. treating $A \to B \to C \to A$ as separate from $B \to C \to A \to B$), we sort the node IDs in the cycle and generate a canonical hash string (`canonicalCycleHash`).
-
-### Q4: How do you guarantee database consistency during credit transfers and registrations?
-**Answer:** We use explicit ACID transactions via JDBC. We disable autocommit (`conn.setAutoCommit(false)`), acquire pessimistic row locks with `SELECT ... FOR UPDATE` where necessary, execute the dependent SQL statements sequentially, and wrap everything in `try-catch`. On success, we call `conn.commit()`; on any `SQLException`, we invoke `conn.rollback()`.
-
-### Q5: How are book cover images handled and stored?
-**Answer:** In `AddListingPanel`, a `JFileChooser` filtered for image formats allows students to pick a cover photo. `ImageUtil.saveImage()` generates a random UUID file name, safely copies the file into `book_images/`, and saves the relative path in MySQL. For pre-seeded books, `GenerateBookCovers.java` procedurally generates 2D academic book covers with gradient backgrounds, title wrapping, and spine depth accents using `Graphics2D`.
