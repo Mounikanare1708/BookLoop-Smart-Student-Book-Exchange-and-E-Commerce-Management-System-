@@ -5,6 +5,8 @@
 > **Architecture:** Pure Desktop Application (Java Swing + FlatLaf + MySQL 8.0 + Apache Maven)
 
 ---
+#### Project Demo Video
+https://canva.link/dm7y82v5t5e84e2
 
 ## 📑 Table of Contents
 1. [Project Overview & Core Mission](#1-project-overview--core-mission)
